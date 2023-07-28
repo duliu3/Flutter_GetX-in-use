@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
-
 import 'main.dart';
 
 class WebSocketPage extends StatefulWidget {
@@ -24,17 +23,17 @@ class _WebSocketPageState extends State<WebSocketPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Row(
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
                 Get.back();
               },
-              child: Text('Go Back'),
+              child: const Text('Go Back'),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             RestartButton(),
           ],
         ),
@@ -43,18 +42,18 @@ class _WebSocketPageState extends State<WebSocketPage> {
             ElevatedButton(
               onPressed: _isConnecting ? null : _isConnected ? _disconnect : _connect,
               child: _isConnecting
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : Text(_isConnected ? 'Connected' : 'ReConnect'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isConnected ? _sendMessage : null,
-              child: Text('Send Message'),
+              child: const Text('Send Message'),
             ),
             Material(
               child: TextField(
                 enabled: _isConnected,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Enter message',
                 ),

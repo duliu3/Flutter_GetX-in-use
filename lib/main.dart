@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getx_in_use/page.dart';
+import 'package:flutter_getx_in_use/state.dart';
 import 'package:get/get.dart';
 import 'websocket_control.dart';
 
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       routes: {
         '/home': (context) => MyHomePage(),
-        '/pageone': (context) => PageOne()
+        '/pageone': (context) => PageOne(),
+        '/state_page': (context) => StatePage(),
       },
     );
   }
@@ -51,31 +53,44 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 30),
+            // RichText(
+            //     text: TextSpan(
+            //         text: 'Go and Back',
+            //         style: TextStyle(color: Colors.blue, fontSize: 30),
+            //         recognizer: TapGestureRecognizer()
+            //           ..onTap = () {
+            //             print("Websocket onTap ");
+            //             // Get.to(() => PageOne());
+            //             Navigator.of(context).push(
+            //               MaterialPageRoute(
+            //                 builder: (context) => PageOne(),
+            //                 settings: RouteSettings(name: '/middle'),
+            //               ),
+            //             );
+            //           })),
             ElevatedButton(
               onPressed: () {
-                Get.back();
+                // Way 1
+                // Get.to(() => PageOne());
+                // Way 2
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => PageOne(),
+                    settings: RouteSettings(name: '/middle'),
+                  ),
+                );
               },
-              child: Text('Go Back'),
+              child: Text('Navigation'),
             ),
-            SizedBox(height: 30),
-            RichText(
-                text: TextSpan(
-                    text: 'Go and Back',
-                    style: TextStyle(color: Colors.blue, fontSize: 30),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        print("Websocket onTap ");
-                        // Get.to(() => PageOne());
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PageOne(),
-                            settings: RouteSettings(name: '/middle'),
-                          ),
-                        );
-                      })),
-            SizedBox(
-              height: 30,
+            ElevatedButton(
+              onPressed: () {
+                // Get.to(() => StatePage());
+                Get.toNamed("/state_page");
+              },
+              child: Text('State Management'),
             ),
+
             ElevatedButton(
               onPressed: () {
                 Get.to(() => WebSocketPage(url: 'wss://'));
