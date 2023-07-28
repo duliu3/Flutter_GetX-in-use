@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'main.dart';
 
-class WebSocketButtons extends StatefulWidget {
+class WebSocketPage extends StatefulWidget {
   final String url;
 
-  const WebSocketButtons({required this.url});
+  const WebSocketPage({required this.url});
 
   @override
-  _WebSocketButtonsState createState() => _WebSocketButtonsState();
+  _WebSocketPageState createState() => _WebSocketPageState();
 }
-class _WebSocketButtonsState extends State<WebSocketButtons> {
+class _WebSocketPageState extends State<WebSocketPage> {
   bool _isConnecting = false;
   bool _isConnected = false;
   String _message = '';
@@ -23,36 +25,51 @@ class _WebSocketButtonsState extends State<WebSocketButtons> {
     return Column(
       children: [
         SizedBox(height: 50),
-        RestartButton(),
-        SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: _isConnecting ? null : _isConnected ? _disconnect : _connect,
-          child: _isConnecting
-              ? CircularProgressIndicator()
-              : Text(_isConnected ? 'Connected' : 'ReConnect'),
-        ),
-        SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: _isConnected ? _sendMessage : null,
-          child: Text('Send Message'),
-        ),
-        SizedBox(height: 16),
-        TextField(
-          enabled: _isConnected,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter message',
-          ),
-          onChanged: (value) => setState(() => _message = value),
-        ),
-        SizedBox(height: 16),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _messages.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(_messages[index]),
+        Row(
+          children: [
+            SizedBox(width: 20),
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('Go Back'),
             ),
-          ),
+            SizedBox(width: 20),
+            RestartButton(),
+          ],
+        ),
+        Column(
+          children: [
+            ElevatedButton(
+              onPressed: _isConnecting ? null : _isConnected ? _disconnect : _connect,
+              child: _isConnecting
+                  ? CircularProgressIndicator()
+                  : Text(_isConnected ? 'Connected' : 'ReConnect'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _isConnected ? _sendMessage : null,
+              child: Text('Send Message'),
+            ),
+            Material(
+              child: TextField(
+                enabled: _isConnected,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter message',
+                ),
+                onChanged: (value) => setState(() => _message = value),
+              ),
+            ),
+            // Expended(
+            //   child: ListView.builder(
+            //       itemCount: _messages.length,
+            //       itemBuilder: (context, index) => ListTile(
+            //         title: Text(_messages[index]),
+            //       ),
+            //     ),
+            // ),
+          ],
         ),
       ],
     );
@@ -114,3 +131,4 @@ class _WebSocketButtonsState extends State<WebSocketButtons> {
     }
   }
 }
+
