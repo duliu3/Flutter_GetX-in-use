@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_in_use/state/state_controller.dart';
+import 'package:flutter_getx_in_use/user/user_page.dart';
 import 'package:get/get.dart';
 
 /// @author Alex
 /// @date 2023/7/28
 /// @Description:
 class StatePage extends StatelessWidget {
-  MyController controller = Get.put(MyController());
+  StateController controller = Get.put(StateController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,14 @@ class StatePage extends StatelessWidget {
                 Get.back();
               },
               child: const Text('Go Back'),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Get.to(
+                  () => UserPage(),);
+              },
+              child: const Text('My Account'),
             ),
           ],
         ),

@@ -22,60 +22,62 @@ class _WebSocketPageState extends State<WebSocketPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 50),
-        Row(
-          children: [
-            const SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: const Text('Go Back'),
-            ),
-            const SizedBox(width: 20),
-            RestartButton(),
-          ],
-        ),
-        Column(
-          children: [
-            ElevatedButton(
-              onPressed: _isConnecting
-                  ? null
-                  : _isConnected
-                      ? _disconnect
-                      : _connect,
-              child: _isConnecting
-                  ? const CircularProgressIndicator()
-                  : Text(_isConnected ? 'Connected' : 'ReConnect'),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _isConnected ? _sendMessage : null,
-              child: const Text('Send Message'),
-            ),
-            Material(
-              child: TextField(
-                enabled: _isConnected,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter message',
-                ),
-                onChanged: (value) => setState(() => _message = value),
+    return Scaffold(
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+          Row(
+            children: [
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('Go Back'),
               ),
-            ),
-            // Expended(
-            //   child: ListView.builder(
-            //       itemCount: _messages.length,
-            //       itemBuilder: (context, index) => ListTile(
-            //         title: Text(_messages[index]),
-            //       ),
-            //     ),
-            // ),
-          ],
-        ),
-      ],
+              const SizedBox(width: 20),
+              RestartButton(),
+            ],
+          ),
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: _isConnecting
+                    ? null
+                    : _isConnected
+                        ? _disconnect
+                        : _connect,
+                child: _isConnecting
+                    ? const CircularProgressIndicator()
+                    : Text(_isConnected ? 'Connected' : 'ReConnect'),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _isConnected ? _sendMessage : null,
+                child: const Text('Send Message'),
+              ),
+              Material(
+                child: TextField(
+                  enabled: _isConnected,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter message',
+                  ),
+                  onChanged: (value) => setState(() => _message = value),
+                ),
+              ),
+              // Expended(
+              //   child: ListView.builder(
+              //       itemCount: _messages.length,
+              //       itemBuilder: (context, index) => ListTile(
+              //         title: Text(_messages[index]),
+              //       ),
+              //     ),
+              // ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

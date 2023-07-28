@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_in_use/state/state_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../page.dart';
@@ -14,19 +15,24 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Get.toNamed("/");
-              },
-              child: Text('ALEX'),
+    return GetBuilder(
+      builder: (StateController controller) {
+        return Scaffold(
+          body: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 50,),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offNamed("/");
+                  },
+                  child: Text('ALEX Fortune: ${controller.deposit}'),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

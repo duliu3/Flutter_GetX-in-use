@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getx_in_use/CustomAnimatedBottomBar.dart';
+import 'package:flutter_getx_in_use/binding.dart';
 import 'package:flutter_getx_in_use/main_controller.dart';
 import 'package:flutter_getx_in_use/page.dart';
 import 'package:flutter_getx_in_use/state/state.dart';
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true),
-      home: HomePage(),
       initialRoute: "/",
       getPages: [
-        GetPage(name: "/", page: () => const HomePage()),
-        GetPage(name: "/features", page: () => const FeaturesPage()),
-        GetPage(name: "/user", page: () => const UserPage()),
+        GetPage(name: "/", page: () => HomePage(), binding: HomeBinding()),
+        // GetPage(name: "/features", page: () => const FeaturesPage()),
+        // GetPage(name: "/user", page: () => const UserPage()),
       ],
     );
   }
@@ -45,44 +45,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
   final _inactiveColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Text(
-              "GetX in use",
-              style: TextStyle(color: Colors.black),
+    return GetBuilder<MainController>(
+      builder: (MainController controller) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: const Text(
+                "GetX in use",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
-          ),
-          body: SafeArea(child: getBody()),
-          bottomNavigationBar: _buildBottomBar(),
-        );
+            body: SafeArea(child: getBody(controller)),
+            bottomNavigationBar: _buildBottomBar(controller),
+          );
+      },
+    );
   }
 
-  Widget getBody() {
+  Widget getBody(MainController controller) {
     List<Widget> pages = [
       FeaturesPage(),
       UserPage(),
     ];
     return IndexedStack(
-      index: _currentIndex,
+      index: controller.tabIndex,
       children: pages,
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(MainController controller) {
     return CustomAnimatedBottomBar(
       containerHeight: 70,
       backgroundColor: Colors.white,
-      selectedIndex: _currentIndex,
+      selectedIndex: controller.tabIndex,
       showElevation: true,
       itemCornerRadius: 24,
       curve: Curves.easeIn,
-      onItemSelected: (index) => setState(() => _currentIndex = index),
+      onItemSelected: controller.changeIndex,
       items: <BottomNavyBarItem>[
         BottomNavyBarItem(
           icon: Icon(Icons.apps),
