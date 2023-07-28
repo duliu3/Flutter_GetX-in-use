@@ -12,6 +12,7 @@ class WebSocketPage extends StatefulWidget {
   @override
   _WebSocketPageState createState() => _WebSocketPageState();
 }
+
 class _WebSocketPageState extends State<WebSocketPage> {
   bool _isConnecting = false;
   bool _isConnected = false;
@@ -40,7 +41,11 @@ class _WebSocketPageState extends State<WebSocketPage> {
         Column(
           children: [
             ElevatedButton(
-              onPressed: _isConnecting ? null : _isConnected ? _disconnect : _connect,
+              onPressed: _isConnecting
+                  ? null
+                  : _isConnected
+                      ? _disconnect
+                      : _connect,
               child: _isConnecting
                   ? const CircularProgressIndicator()
                   : Text(_isConnected ? 'Connected' : 'ReConnect'),
@@ -131,3 +136,19 @@ class _WebSocketPageState extends State<WebSocketPage> {
   }
 }
 
+class RestartButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: ElevatedButton(
+        onPressed: () {
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          // Future.delayed(Duration.zero, () {
+          //   runApp(MyApp());
+          // });
+        },
+        child: Text('Exit'),
+      ),
+    );
+  }
+}

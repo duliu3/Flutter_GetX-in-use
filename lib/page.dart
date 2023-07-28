@@ -123,7 +123,7 @@ class PageThree extends StatelessWidget {
                 onPressed: () {
                   //if u use offAll() it will pop all other pages including main page
                   // Get.offAll(() => PageOne());
-                  Get.offAll(() => const MyHomePage());
+                  Get.offAll(() => const HomePage());
                 },
                 child: const Text('Go Home'),
               ),

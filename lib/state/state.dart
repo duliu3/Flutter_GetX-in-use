@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_in_use/controller.dart';
+import 'package:flutter_getx_in_use/state/state_controller.dart';
 import 'package:get/get.dart';
 
 /// @author Alex

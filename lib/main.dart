@@ -1,9 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_getx_in_use/CustomAnimatedBottomBar.dart';
+import 'package:flutter_getx_in_use/main_controller.dart';
 import 'package:flutter_getx_in_use/page.dart';
-import 'package:flutter_getx_in_use/state.dart';
+import 'package:flutter_getx_in_use/state/state.dart';
+import 'package:flutter_getx_in_use/user/user_page.dart';
 import 'package:get/get.dart';
+import 'features/features_page.dart';
 import 'websocket_control.dart';
 
 void main() {
@@ -22,101 +26,79 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true),
-      home: MyHomePage(),
-      routes: {
-        '/home': (context) => MyHomePage(),
-        '/pageone': (context) => PageOne(),
-        '/state_page': (context) => StatePage(),
-      },
+      home: HomePage(),
+      initialRoute: "/",
+      getPages: [
+        GetPage(name: "/", page: () => const HomePage()),
+        GetPage(name: "/features", page: () => const FeaturesPage()),
+        GetPage(name: "/user", page: () => const UserPage()),
+      ],
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final _inactiveColor = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          "GetX in use",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            // RichText(
-            //     text: TextSpan(
-            //         text: 'Go and Back',
-            //         style: TextStyle(color: Colors.blue, fontSize: 30),
-            //         recognizer: TapGestureRecognizer()
-            //           ..onTap = () {
-            //             print("Websocket onTap ");
-            //             // Get.to(() => PageOne());
-            //             Navigator.of(context).push(
-            //               MaterialPageRoute(
-            //                 builder: (context) => PageOne(),
-            //                 settings: RouteSettings(name: '/middle'),
-            //               ),
-            //             );
-            //           })),
-            ElevatedButton(
-              onPressed: () {
-                // Way 1
-                // Get.to(() => PageOne());
-                // Way 2
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PageOne(),
-                    settings: RouteSettings(name: '/middle'),
-                  ),
-                );
-              },
-              child: Text('Navigation'),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            title: const Text(
+              "GetX in use",
+              style: TextStyle(color: Colors.black),
             ),
-            ElevatedButton(
-              onPressed: () {
-                // Get.to(() => StatePage());
-                Get.toNamed("/state_page");
-              },
-              child: Text('State Management'),
-            ),
+          ),
+          body: SafeArea(child: getBody()),
+          bottomNavigationBar: _buildBottomBar(),
+        );
+  }
 
-            ElevatedButton(
-              onPressed: () {
-                Get.to(() => WebSocketPage(url: 'wss://'));
-              },
-              child: Text('Go Websocket'),
-            ),
-          ],
-        ),
-      ),
+  Widget getBody() {
+    List<Widget> pages = [
+      FeaturesPage(),
+      UserPage(),
+    ];
+    return IndexedStack(
+      index: _currentIndex,
+      children: pages,
     );
   }
-}
 
-class RestartButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-        onPressed: () {
-          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-          // Future.delayed(Duration.zero, () {
-          //   runApp(MyApp());
-          // });
-        },
-        child: Text('Exit'),
-      ),
+  Widget _buildBottomBar() {
+    return CustomAnimatedBottomBar(
+      containerHeight: 70,
+      backgroundColor: Colors.white,
+      selectedIndex: _currentIndex,
+      showElevation: true,
+      itemCornerRadius: 24,
+      curve: Curves.easeIn,
+      onItemSelected: (index) => setState(() => _currentIndex = index),
+      items: <BottomNavyBarItem>[
+        BottomNavyBarItem(
+          icon: Icon(Icons.apps),
+          title: Text('Home'),
+          activeColor: Colors.green,
+          inactiveColor: _inactiveColor,
+          textAlign: TextAlign.center,
+        ),
+        BottomNavyBarItem(
+          icon: Icon(Icons.people),
+          title: Text('Users'),
+          activeColor: Colors.purpleAccent,
+          inactiveColor: _inactiveColor,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
