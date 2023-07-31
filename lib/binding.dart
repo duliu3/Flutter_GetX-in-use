@@ -1,4 +1,5 @@
 import 'package:flutter_getx_in_use/features/features_controller.dart';
+import 'package:flutter_getx_in_use/list/simple_list_controller.dart';
 import 'package:flutter_getx_in_use/main_controller.dart';
 import 'package:flutter_getx_in_use/state/state_controller.dart';
 import 'package:get/get.dart';
@@ -13,5 +14,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut<FeaturesController>(() => FeaturesController());
     Get.lazyPut<StateController>(() => StateController());
+    Get.lazyPut<ListController>(() => ListController());
   }
 }
