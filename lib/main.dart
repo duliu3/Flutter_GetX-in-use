@@ -8,8 +8,12 @@ import 'package:flutter_getx_in_use/page.dart';
 import 'package:flutter_getx_in_use/state/state.dart';
 import 'package:flutter_getx_in_use/user/user_page.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'features/features_page.dart';
 import 'websocket_control.dart';
+
+// 在应用程序的全局范围内定义Logger()
+final Logger logger = Logger();
 
 void main() {
   runApp(const MyApp());

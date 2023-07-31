@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:logger/logger.dart';
 
+import 'main.dart';
+
 /// @author Alex
 /// @date 2023/7/31
 /// @Description:
@@ -17,8 +19,6 @@ class ChannelPage extends StatefulWidget {
 class _ChannelPageState extends State<ChannelPage> {
   static const platform = MethodChannel('my_channel');
   int _batteryLevel = -1;
-  var logger = Logger();
-
   // Flutter invoke Android
   Future<void> _getBatteryLevel() async {
     try {
